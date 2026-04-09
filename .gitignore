@@ -1,1 +1,4 @@
-*.DS_Store
+*.DS_Storevenv/
+.idea/
+__pycache__/
+*.pyc
