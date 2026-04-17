@@ -105,3 +105,45 @@ Note the `[test]` part that tells pip to also install the testing tools listed i
 pytest tests/
 ```
 
+## 📖 Local Documentation Preview
+Before submitting a Pull Request, you should generate the documentation locally to ensure your docstrings, math formulas, and tables are rendering correctly.
+
+1. **Install Documentation Dependencies**:
+Ensure you have the necessary tools installed:
+
+```bash
+pip install sphinx sphinx-rtd-theme
+```
+
+2. **Generate the API Skeleton**: 
+Since the project uses `sphinx-apidoc` to find new files, run this command from the root of the repository:
+
+```bash
+sphinx-apidoc -f -o docs/ src/numanalysislib
+```
+
+3. **Build the HTML**:
+Now, compile the source files into a readable website:
+
+```bash
+# MacOS/Linux
+sphinx-build -b html docs/ docs/_build/html
+
+# Windows
+python -m sphinx.cmd.build -b html docs/ docs/_build/html
+```
+
+4. **View the Results**:
+Open the following file in your preferred web browser: `docs/_build/html/index.html`
+
+If you make changes to your docstrings, you only need to repeat Step 3 to refresh the page. If you add a new file (e.g., `src/numanalysislib/basis/new_basis.py`), you must repeat Step 2 first so Sphinx knows the new file exists.
+
+**Pro-Tip (Optional)**:
+If you want a "Live Reload" experience (where the browser refreshes automatically every time you save a .py file), you can install `sphinx-autobuild`:
+
+```bash
+pip install sphinx-autobuild
+sphinx-autobuild docs docs/_build/html
+```
+
+This will start a local server at `http://127.0.0.1:8000` that updates in real-time as you code.
