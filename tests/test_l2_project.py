@@ -6,8 +6,9 @@ from numanalysislib.approximation.l2_project import L2Projector
 class TestL2Projector:
 
     def test_initialization(self):
-        projector = L2Projector(n_quad=500)
-        assert projector.n_quad == 500
+        projector = L2Projector(rule = "gauss-lobatto", n_points = 10)
+        assert projector.integrator.rule == "gauss-lobatto"
+        assert projector.integrator.n_points == 10
 
     def test_mass_matrix_shape(self):
         basis = PowerBasis(degree=2)
@@ -35,13 +36,13 @@ class TestL2Projector:
         the coefficients should be [1, 2].
         """
         basis = PowerBasis(degree=1)
-        projector = L2Projector(n_quad=2000)
+        projector = L2Projector()
 
         f = lambda x: 1 + 2 * x
         coeffs = projector.project(basis, f)
 
         expected = np.array([1.0, 2.0])
-        np.testing.assert_allclose(coeffs, expected, atol=1e-4)
+        np.testing.assert_allclose(coeffs, expected, atol=1e-6)
 
     def test_project_constant_function(self):
         """
@@ -49,7 +50,7 @@ class TestL2Projector:
         The exact coefficients should be [3, 0].
         """
         basis = PowerBasis(degree=1)
-        projector = L2Projector(n_quad=2000)
+        projector = L2Projector()
         f = lambda x: 3.0 * np.ones_like(x)
         coeffs = projector.project(basis, f)
         expected = np.array([3.0, 0.0])
